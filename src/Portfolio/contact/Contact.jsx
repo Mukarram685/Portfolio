@@ -1,6 +1,7 @@
 import React from "react";
-import { FaLinkedinIn, FaGithub, FaWhatsapp, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { FaLinkedinIn, FaGithub, FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import ContactForm from "./ContactForm";
+import { motion } from "framer-motion";
 
 function Contact() {
   const whatsappNumber = "923098183945";
@@ -12,84 +13,85 @@ function Contact() {
   const emailBody = "Hello Mukarram, I came across your portfolio and would like to connect.";
   const emailLink = `mailto:${emailAddress}?subject=${encodeURIComponent(emailSubject)}&body=${encodeURIComponent(emailBody)}`;
 
+  const socialLinks = [
+    { name: "WhatsApp", icon: <FaWhatsapp />, link: whatsappLink, color: "#25D366" },
+    { name: "Email", icon: <FaEnvelope />, link: emailLink, color: "#EA4335" },
+    { name: "GitHub", icon: <FaGithub />, link: "https://github.com/Mukarram685", color: "#181717" },
+    { name: "LinkedIn", icon: <FaLinkedinIn />, link: "https://www.linkedin.com/in/muhammad-mukarram-9220b9312/", color: "#0077B5" },
+  ];
+
   return (
-    <section id="contact" className="bg-[#1A1A1A] text-white px-4 py-12">
-      <h2 className="text-4xl text-center font-bold text-[#007BFF] mb-4">
-        Let's Work Together <span className="text-white font-semibold">– Contact Me</span>
-      </h2>
-      <p className="text-lg text-center max-w-3xl m-auto text-gray-400">
-        Have a project in mind? Let’s talk! I’d love to hear from you and bring your ideas to life.
-      </p>
+    <section id="contact" className="py-24 relative overflow-hidden">
+      {/* Background Gradients */}
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] -z-10" />
 
-      <div className="max-w-6xl mx-auto mt-10 flex flex-col md:flex-row gap-10">
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
+            Get In <span className="text-gradient">Touch</span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full mb-6" />
+          <p className="text-slate-400 text-lg max-w-2xl mx-auto">
+            Have a project in mind or just want to say hi? I'd love to hear from you.
+          </p>
+        </motion.div>
 
-        {/* Left side - Contact Links */}
-        <div className="flex-1 md:max-w-md bg-gray-900 bg-opacity-80 border border-gray-700 rounded-2xl shadow-xl p-8 backdrop-blur-lg">
-          <h2 className="text-[#007BFF] text-2xl font-bold mb-8 text-center">Get in Touch</h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
 
-          <div className="space-y-6">
-
-            <a
-              href={whatsappLink}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 group"
-            >
-              <div className="p-3 rounded-full bg-green-500 group-hover:bg-[#007BFF] transition">
-                <FaWhatsapp size={24} className="text-white" />
+          {/* Contact Info */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="space-y-8"
+          >
+            <div className="glass p-8 rounded-2xl">
+              <h3 className="text-2xl font-bold text-white mb-6">Connect with me</h3>
+              <div className="grid gap-4">
+                {socialLinks.map((social, index) => (
+                  <a
+                    key={index}
+                    href={social.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-4 p-4 rounded-xl bg-white/5 border border-white/5 hover:bg-white/10 hover:border-white/20 transition-all group"
+                  >
+                    <div className="p-3 rounded-full bg-white/5 text-2xl group-hover:scale-110 transition-transform" style={{ color: social.color }}>
+                      {social.icon}
+                    </div>
+                    <div>
+                      <span className="block text-slate-400 text-sm">{social.name}</span>
+                      <span className="text-white font-medium group-hover:text-primary transition-colors">
+                        {social.name === "WhatsApp" ? "+92 309 8183945" :
+                          social.name === "Email" ? "muka654r@gmail.com" :
+                            social.name === "GitHub" ? "Mukarram685" : "Mukarram"}
+                      </span>
+                    </div>
+                  </a>
+                ))}
               </div>
-              <span className="md:text-lg font-medium text-white group-hover:text-[#007BFF] transition">
-                WhatsApp: +92 309 8183945
-              </span>
-            </a>
+            </div>
+          </motion.div>
 
-            <a
-              href={emailLink}
-              className="flex items-center gap-4 group"
-            >
-              <div className="p-3 rounded-full bg-red-500 group-hover:bg-[#007BFF] transition">
-                <FaEnvelope size={24} className="text-white" />
-              </div>
-              <span className="md:text-lg font-medium text-white group-hover:text-[#007BFF] transition">
-                Email: muka654r@gmail.com
-              </span>
-            </a>
+          {/* Contact Form */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.4 }}
+          >
+            <div className="glass p-8 rounded-2xl">
+              <ContactForm />
+            </div>
+          </motion.div>
 
-            <a
-              href="https://github.com/Mukarram685"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 group"
-            >
-              <div className="p-3 rounded-full bg-gray-700 group-hover:bg-[#007BFF] transition">
-                <FaGithub size={24} className="text-white" />
-              </div>
-              <span className="md:text-lg font-medium text-white group-hover:text-[#007BFF] transition">
-                GitHub: Mukarram685
-              </span>
-            </a>
-
-            <a
-              href="https://www.linkedin.com/in/muhammad-mukarram-9220b9312/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-4 group"
-            >
-              <div className="p-3 rounded-full bg-blue-500 group-hover:bg-[#007BFF] transition">
-                <FaLinkedinIn size={24} className="text-white" />
-              </div>
-              <span className="md:text-lg  font-medium text-white group-hover:text-[#007BFF] transition">
-                LinkedIn: linkedin.com/Mukarram
-              </span>
-            </a>
-
-          </div>
         </div>
-
-        <div className="flex-1 bg-gray-900 border border-gray-700 rounded-2xl shadow-xl p-6 backdrop-blur-lg">
-          <ContactForm />
-        </div>
-
       </div>
     </section>
   );

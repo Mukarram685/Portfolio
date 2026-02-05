@@ -1,112 +1,129 @@
 import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { check } from "../../assets/images";
 
 const ProjectDetail = ({ project, onClose }) => {
-    if (!project) return null;
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [isOpen, setIsOpen] = useState(false);
+    const [isVisible, setIsVisible] = useState(false);
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setCurrentImageIndex((prevIndex) =>
-                prevIndex === project.images.length - 1 ? 0 : prevIndex + 1
-            );
-        }, 2500);
-        return () => clearInterval(interval);
-    }, [project.images.length]);
+        if (project) {
+            setIsVisible(true);
+            setCurrentImageIndex(0); // Reset on new project
+        } else {
+            setIsVisible(false);
+        }
+    }, [project]);
 
-    useEffect(() => {
-        setIsOpen(true);
-    }, []);
-
-    const handleClose = () => {
-        setIsOpen(false);
-        setTimeout(() => {
-            onClose();
-        }, 300);
-    };
+    if (!project && !isVisible) return null;
 
     return (
-        <div className="fixed inset-0 z-50 overflow-hidden">
-            <div
-                className="absolute inset-0 bg-black/50 transition-opacity"
-                onClick={handleClose}
-            />
-            <div className="absolute inset-y-0 right-0 flex max-w-full">
-                <div className={`relative w-screen md:max-w-sm lg:max-w-xl transform transition-transform duration-300 ease-in-out ${isOpen ? 'translate-x-0' : 'translate-x-full'}`}>
-                    <div className="h-full flex flex-col bg-gray-900 shadow-xl overflow-y-scroll">
-                        <div className="flex-1 p-6 overflow-y-auto">
-                            <div className="flex items-start justify-end">
-                                <button
-                                    onClick={handleClose}
-                                    className="text-gray-400 hover:text-white"
-                                >
-                                    <span className="sr-only">Close panel</span>
-                                    <svg className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </button>
-                            </div>
-                            <div className="mt-4">
-                                <h2 className="text-xl font-bold text-[#007BFF] mb-4">{project.title}</h2>
+        <AnimatePresence>
+            {project && ( // Only render if project exists to avoid null access during exit anim
+                <>
+                    {/* Backdrop */}
+                    <motion.div
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        exit={{ opacity: 0 }}
+                        onClick={onClose}
+                        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50 cursor-pointer"
+                    />
 
-                                <div className="mb-6">
-                                    <div className="relative h-96 w-full overflow-hidden bg-gray-500/50 rounded-lg">
-                                        <img
-                                            src={project.images[currentImageIndex]}
-                                            alt={project.title}
-                                            className="w-full h-full object-cover object-center"
-                                        />
-                                    </div>
-                                    <div className="flex mt-5 space-x-3 overflow-x-auto justify-center">
-                                        {project.images.map((img, index) => (
-                                            <img
-                                                key={index}
-                                                src={img}
-                                                alt={`${project.title} ${index + 1}`}
-                                                className="h-16 w-16 object-cover rounded cursor-pointer"
-                                            />
-                                        ))}
+                    {/* Slide Panel */}
+                    <motion.div
+                        initial={{ x: "100%" }}
+                        animate={{ x: 0 }}
+                        exit={{ x: "100%" }}
+                        transition={{ type: "tween", duration: 0.3 }}
+                        className="fixed inset-y-0 right-0 z-50 w-full md:w-[600px] bg-dark-light border-l border-white/10 shadow-2xl flex flex-col h-full"
+                        onClick={(e) => e.stopPropagation()}
+                    >
+                        {/* Header */}
+                        <div className="p-6 border-b border-white/10 flex justify-between items-center bg-dark/50">
+                            <h2 className="text-2xl font-display font-bold text-white">{project.title}</h2>
+                            <button
+                                onClick={onClose}
+                                className="p-2 hover:bg-white/10 rounded-full transition-colors text-slate-400 hover:text-white"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                        </div>
+
+                        {/* Content */}
+                        <div className="flex-1 overflow-y-auto p-6 space-y-8 custom-scrollbar">
+                            {/* Image Gallery */}
+                            <div className="space-y-4">
+                                <div className="h-64 sm:h-80 w-full rounded-xl overflow-hidden bg-black/40 border border-white/5 relative group">
+                                    <img
+                                        src={project.images[currentImageIndex]}
+                                        alt={project.title}
+                                        className="w-full h-full object-cover"
+                                    />
+                                    <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                                        {/* Navigation hints could go here */}
                                     </div>
                                 </div>
-                                <div className="prose prose-invert">
-                                    <p className="text-gray-300 mb-4">{project.description}</p>
+                                <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
+                                    {project.images.map((img, idx) => (
+                                        <button
+                                            key={idx}
+                                            onClick={() => setCurrentImageIndex(idx)}
+                                            className={`shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${currentImageIndex === idx ? 'border-primary' : 'border-transparent opacity-60 hover:opacity-100'
+                                                }`}
+                                        >
+                                            <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+                                        </button>
+                                    ))}
+                                </div>
+                            </div>
 
+                            {/* Details */}
+                            <div className="space-y-6">
+                                <div>
+                                    <h3 className="text-lg font-bold text-white mb-2">Description</h3>
+                                    <p className="text-slate-300 leading-relaxed text-sm sm:text-base">
+                                        {project.description}
+                                    </p>
                                     {project.longDescription && (
-                                        <p className="text-gray-300 mb-4">{project.longDescription}</p>
+                                        <p className="text-slate-300 leading-relaxed text-sm sm:text-base mt-2">
+                                            {project.longDescription}
+                                        </p>
                                     )}
+                                </div>
 
-                                    <h3 className='text-lg font-semibold text-blue-500 mb-2'>Features</h3>
-                                    {project.features?.length > 0 ? (
-                                        <ul className="text-gray-300 mb-4">
-                                            {project.features.map((feature, index) => (
-                                                <div className="flex gap-4">
-                                                    <img src={check} alt="checkmark" className="w-6 h-6" />
-                                                    <li key={index} className="mb-2">{feature}</li>
-                                                </div>
-                                            ))}
-                                        </ul>
-                                    ) : (
-                                        <p className="text-gray-300">No features available.</p>
-                                    )}
-                                    <h3 className="text-lg font-semibold text-white mb-2">Technologies Used</h3>
-                                    <div className="flex flex-wrap gap-2 mb-6">
-                                        {project.technologies.map((tech, index) => (
-                                            <span
-                                                key={index}
-                                                className="px-3 py-1 bg-[#007BFF] text-white rounded-[5px] text-sm"
-                                            >
+                                <div>
+                                    <h3 className="text-lg font-bold text-white mb-3">Technologies</h3>
+                                    <div className="flex flex-wrap gap-2">
+                                        {project.technologies.map((tech, idx) => (
+                                            <span key={idx} className="px-3 py-1 bg-white/5 border border-white/10 text-primary rounded-full text-sm font-medium">
                                                 {tech}
                                             </span>
                                         ))}
                                     </div>
                                 </div>
+
+                                {project.features && project.features.length > 0 && (
+                                    <div>
+                                        <h3 className="text-lg font-bold text-white mb-3">Key Features</h3>
+                                        <ul className="space-y-2">
+                                            {project.features.map((feature, idx) => (
+                                                <li key={idx} className="flex items-start gap-3 text-slate-300 text-sm">
+                                                    <img src={check} alt="check" className="w-5 h-5 mt-0.5 opacity-80" />
+                                                    <span>{feature}</span>
+                                                </li>
+                                            ))}
+                                        </ul>
+                                    </div>
+                                )}
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+                    </motion.div>
+                </>
+            )}
+        </AnimatePresence>
     );
 };
 

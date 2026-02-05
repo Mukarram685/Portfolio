@@ -1,77 +1,90 @@
 import React from "react";
-import { FaReact, FaJs, FaHtml5, FaCss3Alt, FaGitAlt, FaGithub } from "react-icons/fa";
-import { SiTypescript, SiTailwindcss, SiRedux, SiFirebase, SiExpress, SiMongoose, SiMongodb, SiMongoosedotws } from "react-icons/si";
+import { motion } from "framer-motion";
+import { FaReact, FaJs, FaGitAlt, FaGithub } from "react-icons/fa";
+import { SiTypescript, SiTailwindcss, SiRedux, SiFirebase, SiExpress, SiMongodb } from "react-icons/si";
 import { about } from "../../data/about.js";
 
 const About = () => {
-
-  console.log(about);
-
   const skills = [
-    { name: "JavaScript", icon: <FaJs size={24} className="text-[#F7DF1E]" />, color: "#F7DF1E" },
-    { name: "TypeScript", icon: <SiTypescript size={24} className="text-[#3178C6]" />, color: "#3178C6" },
-    { name: "React", icon: <FaReact size={24} className="text-[#61DAFB]" />, color: "#61DAFB" },
-    { name: "Tailwind CSS", icon: <SiTailwindcss size={24} className="text-[#06B6D4]" />, color: "#06B6D4" },
-    // { name: "HTML", icon: <FaHtml5 size={24} className="text-[#E34F26]" />, color: "#E34F26" },
-    // { name: "CSS", icon: <FaCss3Alt size={24} className="text-[#1572B6]" />, color: "#1572B6" },
-    { name: "Responsive Design", icon: "📱", color: "#007BFF" }, // Emoji for Responsive Design
-    { name: "Git", icon: <FaGitAlt size={24} className="text-[#F05032]" />, color: "#F05032" },
-    { name: "GitHub", icon: <FaGithub size={24} className="text-[#181717]" />, color: "#181717" },
-    { name: "Redux", icon: <SiRedux size={24} className="text-[#FFCA28]" />, color: "#764ABC" },
-    { name: "Firebase", icon: <SiFirebase size={24} className="text-[#FFCA28]" />, color: "#FFCA28" },
-    { name: "Express", icon: <SiExpress size={24} className="text-[#FFCA28]" />, color: "#FFCA28" },
-    { name: "MongoDB", icon: <SiMongodb size={24} className="text-[#47A248]" />, color: "#47A248" },
+    { name: "JavaScript", icon: <FaJs />, color: "#F7DF1E" },
+    { name: "TypeScript", icon: <SiTypescript />, color: "#3178C6" },
+    { name: "React", icon: <FaReact />, color: "#61DAFB" },
+    { name: "Tailwind CSS", icon: <SiTailwindcss />, color: "#06B6D4" },
+    { name: "Redux", icon: <SiRedux />, color: "#764ABC" },
+    { name: "Firebase", icon: <SiFirebase />, color: "#FFCA28" },
+    { name: "Express", icon: <SiExpress />, color: "#000000" },
+    { name: "MongoDB", icon: <SiMongodb />, color: "#47A248" },
+    { name: "Git", icon: <FaGitAlt />, color: "#F05032" },
+    { name: "GitHub", icon: <FaGithub />, color: "#181717" },
   ];
 
   return (
-    <section id="about" className="bg-[#1A1A1A] text-white px-4 py-12">
-      <div>
-        <h2 className="text-3xl text-center font-bold text-[#007BFF] mb-1">About Me</h2>
-        <div className="h-[1px] max-w-sm mx-auto bg-[#FFCA28] mb-6"></div>
-        <div className="space-y-4">
-          <p className="text-md text-center mb-4 max-w-3xl m-auto">
-            I am a <span className="text-[#FFD700] font-semibold">Frontend Developer</span>React and React Native for web and mobile development. It emphasizes quality, scalability, and user experience with modern and impactful language.
-          </p>
-        </div>
-        <div className="max-w-6xl mx-auto flex flex-col md:flex-row py-4 gap-8">
-          <div className="flex-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-5  opacity-95 hover:opacity-100 transition-opacity">
-            <h2 className="text-2xl font-bold text-[#007BFF] mb-6">Get to know me!</h2>
-            <div className="space-y-4">
+    <section id="about" className="py-24 relative overflow-hidden">
+      {/* Decorative Background */}
+      <div className="absolute top-0 left-0 w-full h-full -z-10 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-blue-900/10 via-dark to-dark pointer-events-none" />
 
-              {
-                about.map((item) => (
-                  <p key={item.id} className="text-md">
+      <div className="max-w-7xl mx-auto px-6">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+          className="text-center mb-16"
+        >
+          <h2 className="text-4xl md:text-5xl font-bold font-display text-white mb-4">
+            About <span className="text-gradient">Me</span>
+          </h2>
+          <div className="w-24 h-1 bg-gradient-to-r from-primary to-secondary mx-auto rounded-full" />
+        </motion.div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          {/* About Text */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.2 }}
+            className="space-y-6"
+          >
+            <div className="glass p-8 rounded-2xl relative overflow-hidden group">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+              <h3 className="text-2xl font-bold text-white mb-6 relative z-10">Get to know me!</h3>
+              <div className="space-y-4 text-slate-300 relative z-10">
+                <p className="font-medium text-lg text-white">
+                  I am a <span className="text-secondary">Frontend Developer</span> specializing in React and React Native for web and mobile development.
+                </p>
+                {about.map((item) => (
+                  <p key={item.id} className="leading-relaxed">
                     {item.description}
                   </p>
-                ))
-              }
+                ))}
+              </div>
             </div>
-          </div>
+          </motion.div>
 
-          <div className="flex-1 bg-gray-800 border border-gray-700 rounded-lg shadow-lg p-5 opacity-95 hover:opacity-100 transition-opacity">
-            <h2 className="text-2xl font-bold text-[#007BFF] mb-6">Skills</h2>
-            <div className="flex flex-wrap gap-3">
-
-              {skills.map((skill, index) => (
-                <p
-                  key={index}
-                  className="text-md flex items-center gap-3 border bg-gray-700 border-gray-400 rounded-md p-2 px-3 hover:bg-gray-700 hover:shadow-md transition-all"
-                  style={{
-                    borderColor: skill.color,
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.borderColor = skill.color;
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.borderColor = "#F7DF1E";
-                  }}
-                >
-                  {skill.icon} {skill.name}
-                </p>
-              ))}
-
+          {/* Skills Grid */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6, delay: 0.4 }}
+          >
+            <div className="glass p-8 rounded-2xl h-full">
+              <h3 className="text-2xl font-bold text-white mb-8">My Skills</h3>
+              <div className="flex flex-wrap gap-3">
+                {skills.map((skill, index) => (
+                  <motion.div
+                    key={index}
+                    whileHover={{ scale: 1.05, y: -2 }}
+                    className="flex items-center gap-2 px-4 py-3 bg-white/5 border border-white/10 rounded-xl hover:bg-white/10 hover:border-primary/50 transition-all cursor-default"
+                  >
+                    <span className="text-xl" style={{ color: skill.color }}>{skill.icon}</span>
+                    <span className="text-slate-200 font-medium text-sm">{skill.name}</span>
+                  </motion.div>
+                ))}
+              </div>
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>

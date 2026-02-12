@@ -1,3 +1,4 @@
+'use client';
 import { FaLinkedin, FaGithub, FaWhatsapp } from "react-icons/fa";
 import { Link } from "react-scroll";
 

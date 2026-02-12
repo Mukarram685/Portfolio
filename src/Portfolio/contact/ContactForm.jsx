@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from 'react';
 
 const ContactForm = () => {
@@ -61,7 +62,7 @@ const ContactForm = () => {
     <div className="w-full flex justify-center">
       <div className="w-full max-w-2xl bg-gray-900 p-4 md:p-10 rounded-lg shadow-lg border border-gray-700">
         <h3 className="text-2xl font-bold text-[#007BFF] mb-6 text-center">Send a Message</h3>
-        
+
         {submitStatus.message && (
           <div className={`mb-6 p-4 rounded-md ${submitStatus.success ? 'bg-green-900 text-green-300' : 'bg-red-900 text-red-300'}`}>
             {submitStatus.message}
@@ -87,7 +88,7 @@ const ContactForm = () => {
               placeholder="Enter your name"
             />
           </div>
-          
+
           <div>
             <label htmlFor="email" className="text-gray-300 font-semibold">Email:</label>
             <input
@@ -102,7 +103,7 @@ const ContactForm = () => {
               placeholder="Enter your email"
             />
           </div>
-          
+
           <div>
             <label htmlFor="message" className="text-gray-300 font-semibold">Message:</label>
             <textarea
@@ -119,9 +120,8 @@ const ContactForm = () => {
           </div>
 
           <button
-            className={`p-3 bg-[#007BFF] text-white rounded-md hover:bg-[#0056b3] transition text-lg font-semibold flex items-center justify-center ${
-              isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
-            }`}
+            className={`p-3 bg-[#007BFF] text-white rounded-md hover:bg-[#0056b3] transition text-lg font-semibold flex items-center justify-center ${isSubmitting ? 'opacity-75 cursor-not-allowed' : ''
+              }`}
             type="submit"
             disabled={isSubmitting}
           >

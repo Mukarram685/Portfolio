@@ -1,3 +1,4 @@
+'use client';
 import React, { useState } from "react";
 import ProjectComponent from "./ProjectComponent";
 import ProjectDetail from "./ProjectDetail";

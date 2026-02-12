@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import { motion } from "framer-motion";
 import { FaReact, FaJs, FaGitAlt, FaGithub } from "react-icons/fa";

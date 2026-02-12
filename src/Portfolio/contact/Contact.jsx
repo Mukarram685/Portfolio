@@ -1,3 +1,4 @@
+'use client';
 import React from "react";
 import { FaLinkedinIn, FaGithub, FaWhatsapp, FaEnvelope } from "react-icons/fa";
 import ContactForm from "./ContactForm";

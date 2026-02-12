@@ -59,8 +59,8 @@ const ProjectDetail = ({ project, onClose }) => {
                             <div className="space-y-4">
                                 <div className="h-64 sm:h-80 w-full rounded-xl overflow-hidden bg-black/40 border border-white/5 relative group">
                                     <img
-                                        src={project.images[currentImageIndex]}
-                                        alt={project.title}
+                                        src={project.images[currentImageIndex]?.src || project.images[currentImageIndex]}
+                                        alt={`${project.title} gallery image ${currentImageIndex + 1}`}
                                         className="w-full h-full object-cover"
                                     />
                                     <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent flex justify-center gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -75,7 +75,7 @@ const ProjectDetail = ({ project, onClose }) => {
                                             className={`shrink-0 w-20 h-16 rounded-lg overflow-hidden border-2 transition-all ${currentImageIndex === idx ? 'border-primary' : 'border-transparent opacity-60 hover:opacity-100'
                                                 }`}
                                         >
-                                            <img src={img} alt="thumbnail" className="w-full h-full object-cover" />
+                                            <img src={img?.src || img} alt="thumbnail" className="w-full h-full object-cover" />
                                         </button>
                                     ))}
                                 </div>
@@ -112,7 +112,7 @@ const ProjectDetail = ({ project, onClose }) => {
                                         <ul className="space-y-2">
                                             {project.features.map((feature, idx) => (
                                                 <li key={idx} className="flex items-start gap-3 text-slate-300 text-sm">
-                                                    <img src={check} alt="check" className="w-5 h-5 mt-0.5 opacity-80" />
+                                                    <img src={check?.src || check} alt="Checkmark icon" className="w-5 h-5 mt-0.5 opacity-80" />
                                                     <span>{feature}</span>
                                                 </li>
                                             ))}

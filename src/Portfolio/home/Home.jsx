@@ -116,7 +116,7 @@ const TypingEffect = ({ words }) => {
 
   return (
     <h2 className="text-3xl sm:text-4xl md:text-5xl font-bold text-slate-300">
-      I build <span className="text-secondary">{`${words[index].substring(0, subIndex)}${blink ? "|" : " "}`}</span>
+      I am <span className="text-secondary">{`${words[index].substring(0, subIndex)}${blink ? "|" : " "}`}</span>
     </h2>
   );
 };

@@ -28,8 +28,8 @@ const ProjectComponent = ({ project, onClick }) => {
         <AnimatePresence mode="wait">
           <motion.img
             key={currentImageIndex}
-            src={project.images && project.images.length > 0 ? project.images[currentImageIndex] : ""}
-            alt={project.title}
+            src={(project.images && project.images.length > 0) ? (project.images[currentImageIndex]?.src || project.images[currentImageIndex]) : ""}
+            alt={`${project.title} - View ${currentImageIndex + 1}`}
             initial={{ opacity: 0, scale: 1.1 }}
             animate={{ opacity: 1, scale: 1 }}
             exit={{ opacity: 0 }}
